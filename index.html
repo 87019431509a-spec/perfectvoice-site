@@ -1,146 +1,365 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>PerfectVoice AI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    :root {
-      --bg: #0B0C10;
-      --card: #12131A;
-      --text: #ffffff;
-      --muted: #A6A8B3;
-      --accent: #8B5CF6;
-      --accent2: #9D7BFF;
-    }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 16px;
-    }
-
-    .app {
-      width: 100%;
-      max-width: 420px;
-      background: var(--card);
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 0 40px rgba(0,0,0,.6);
-    }
-
-    h1 {
-      margin: 0 0 8px;
-      font-size: 26px;
-    }
-
-    .sub {
-      color: var(--muted);
-      margin-bottom: 24px;
-      font-size: 14px;
-    }
-
-    label {
-      font-size: 12px;
-      color: var(--muted);
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    select, textarea {
-      width: 100%;
-      background: #0f1016;
-      border: 1px solid #1c1d26;
-      border-radius: 12px;
-      padding: 12px;
-      color: var(--text);
-      margin-bottom: 16px;
-      font-size: 14px;
-    }
-
-    textarea { resize: none; }
-
-    .row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .btn {
-      flex: 1;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid #1c1d26;
-      background: #0f1016;
-      color: var(--text);
-      font-size: 14px;
-    }
-
-    .btn.active {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border: none;
-    }
-
-    .generate {
-      width: 100%;
-      padding: 14px;
-      border-radius: 14px;
-      border: none;
-      font-size: 16px;
-      color: #fff;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      margin-top: 8px;
-    }
-
-    .status {
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 16px;
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PerfectVoice AI</title>
+<style>
+:root{--bg:#0B0C10;--card:#12131A;--text:#fff;--muted:#A6A8B3;--accent:#8B5CF6;--accent2:#9D7BFF;--line:#1c1d26;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:16px}
+.app{width:100%;max-width:440px;background:var(--card);border-radius:20px;padding:22px;box-shadow:0 0 40px rgba(0,0,0,.6)}
+h1{margin:0 0 6px;font-size:26px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:18px}
+label{font-size:12px;color:var(--muted);display:block;margin:12px 0 6px}
+select,textarea,input{width:100%;background:#0f1016;border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--text);font-size:14px}
+textarea{resize:none}
+.row{display:flex;gap:8px}
+.btn{flex:1;padding:12px;border-radius:12px;border:1px solid var(--line);background:#0f1016;color:var(--text);font-size:14px}
+.btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none}
+.cta{width:100%;margin-top:14px;padding:14px;border:none;border-radius:14px;font-size:16px;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+.secondary{width:100%;margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:14px;font-size:15px;color:#fff;background:#0f1016}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.badge{display:inline-flex;gap:8px;align-items:center;color:var(--muted);font-size:12px}
+.status{margin-top:12px;color:var(--muted);font-size:13px;line-height:1.35}
+.card{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
+.hidden{display:none}
+pre{white-space:pre-wrap;background:#0f1016;border:1px solid var(--line);padding:12px;border-radius:12px;color:#d9d9ff;font-size:13px}
+.cover{width:100%;aspect-ratio:1/1;border-radius:16px;background:linear-gradient(135deg,#1c1d26,#0f1016);overflow:hidden;border:1px solid var(--line)}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
+.small{font-size:12px;color:var(--muted)}
+a{color:#cbbcff}
+</style>
 </head>
-
 <body>
-  <div class="app">
-    <h1>PerfectVoice AI</h1>
-    <div class="sub">Premium AI music generator</div>
+<div class="app">
+  <h1>PerfectVoice AI</h1>
+  <div class="sub">Премиальная генерация песен • вокал • обложки</div>
 
-    <label>Genre</label>
-    <select>
-      <option>Pop</option>
-      <option>Rap</option>
-      <option>Rock</option>
-      <option>Electronic</option>
-      <option>Dark Urban</option>
-    </select>
+  <div class="badge">🌐 <span id="apiState">API: не подключено</span></div>
 
-    <label>Tempo</label>
-    <div class="row">
-      <button class="btn active">Auto</button>
-      <button class="btn">Slow</button>
-      <button class="btn">Fast</button>
-    </div>
+  <label>Жанр</label>
+  <select id="genre"></select>
 
-    <label>Voice</label>
-    <div class="row">
-      <button class="btn active">Male</button>
-      <button class="btn">Female</button>
-    </div>
-
-    <label>Idea</label>
-    <textarea rows="4" placeholder="Dark, emotional track about power and control…"></textarea>
-
-    <button class="generate">Generate</button>
-
-    <div class="status">Status: ready</div>
+  <label>Темп</label>
+  <div class="row" id="tempoRow">
+    <button class="btn active" data-tempo="auto">🎛 Авто</button>
+    <button class="btn" data-tempo="slow">Медленный</button>
+    <button class="btn" data-tempo="fast">Быстрый</button>
   </div>
+
+  <label>Голос</label>
+  <div class="row" id="voiceRow">
+    <button class="btn active" data-voice="male">👨 Мужской</button>
+    <button class="btn" data-voice="female">👩 Женский</button>
+  </div>
+
+  <label>Режим текста</label>
+  <div class="row" id="modeRow">
+    <button class="btn active" data-mode="ai">🤖 Генерация ИИ</button>
+    <button class="btn" data-mode="user">✏️ Свой текст</button>
+  </div>
+
+  <label id="ideaLabel">Идея (≤ 500)</label>
+  <textarea id="idea" rows="4" placeholder="Опиши идею песни…"></textarea>
+
+  <button class="cta" id="btnText">Сгенерировать текст</button>
+
+  <div class="grid2">
+    <button class="secondary" id="btnDemo">🎵 DEMO (40s)</button>
+    <button class="secondary" id="btnFull">💳 Полная версия</button>
+  </div>
+
+  <div class="status" id="status">Статус: готов</div>
+
+  <div class="card hidden" id="textCard">
+    <div class="small">Текст готов:</div>
+    <pre id="lyrics"></pre>
+  </div>
+
+  <div class="card hidden" id="resultCard">
+    <div class="small">Результат:</div>
+    <div class="cover" id="coverBox"></div>
+    <div style="height:10px"></div>
+    <audio id="a1" controls style="width:100%"></audio>
+    <div style="height:8px"></div>
+    <audio id="a2" controls style="width:100%"></audio>
+  </div>
+
+  <div class="card">
+    <div class="small">Подсказка:</div>
+    <div class="small">Чтобы сайт работал как бот — нужен backend API на PythonAnywhere. Я даю код ниже.</div>
+  </div>
+</div>
+
+<script>
+/** === НАСТРОЙКА ===
+ * 1) Подними API на PythonAnywhere
+ * 2) Впиши сюда адрес, например:
+ *    const API_BASE = "https://perfectvoice.pythonanywhere.com";
+ */
+const API_BASE = ""; // <-- сюда позже вставишь
+
+const GENRES = [
+  "🎤 Поп","🎸 Рок","🔥 Реп","🎶 Хип-хоп","🎹 Электроника","🎵 Шансон","😎 Розыгрыш",
+  "🌑 Тёмный урбан","🌃 Кибер-романтика","❄️ Холодный техно","🎸 Акустический нуар",
+  "🏙️ Городская элегия","🔩 Стальной драм-флоу"
+];
+
+const WAIT_TEXT = [
+  "⏳ Ожидайте… собираю атмосферу и структуру трека.",
+  "🧠 Ожидайте… шлифую рифмы, чтобы звучало дорого.",
+  "🎛 Ожидайте… настраиваю темп и подачу под жанр.",
+  "🎧 Ожидайте… делаю припев цепким и поющимся.",
+  "✨ Ожидайте… добавляю «вау»-эффект."
+];
+
+const WAIT_MUSIC = [
+  "🎶 Ожидайте… запускаю генерацию музыки.",
+  "🎤 Ожидайте… подбираю тембр и динамику вокала.",
+  "💿 Ожидайте… собираю аранжировку, чтобы качало.",
+  "⚡ Ожидайте… финальная полировка звука.",
+  "🛰 Ожидайте… Suno уже в деле, секундочку."
+];
+
+let state = {
+  genre: GENRES[0],
+  tempo: "auto",
+  voice: "male",
+  mode: "ai",
+  full_text: ""
+};
+
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)] }
+function setStatus(t){ document.getElementById("status").innerText = "Статус: " + t; }
+function setApiState(ok){
+  document.getElementById("apiState").innerText = ok ? "API: подключено" : "API: не подключено";
+}
+
+function setActive(containerId, attr, value){
+  document.querySelectorAll(`#${containerId} .btn`).forEach(b=>{
+    b.classList.toggle("active", b.getAttribute(attr)===value);
+  });
+}
+
+function renderGenres(){
+  const sel = document.getElementById("genre");
+  sel.innerHTML = GENRES.map(g=>`<option>${g}</option>`).join("");
+  sel.value = state.genre;
+  sel.onchange = ()=> state.genre = sel.value;
+}
+
+function renderMode(){
+  const label = document.getElementById("ideaLabel");
+  const ta = document.getElementById("idea");
+  if(state.mode==="ai"){
+    label.innerText = "Идея (≤ 500)";
+    ta.placeholder = "Опиши идею песни…";
+  } else {
+    label.innerText = "Текст песни (полностью)";
+    ta.placeholder = "Вставь свой текст…";
+  }
+}
+
+async function apiPost(path, payload){
+  if(!API_BASE) throw new Error("API_BASE empty");
+  const r = await fetch(API_BASE + path, {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify(payload)
+  });
+  if(!r.ok) throw new Error("HTTP " + r.status);
+  return await r.json();
+}
+
+async function apiGet(path){
+  if(!API_BASE) throw new Error("API_BASE empty");
+  const r = await fetch(API_BASE + path);
+  if(!r.ok) throw new Error("HTTP " + r.status);
+  return await r.json();
+}
+
+async function pollJob(jobId){
+  // ожидаем, пока backend отдаст DONE/ERROR
+  for(;;){
+    const j = await apiGet(`/api/job/${jobId}`);
+    if(j.status==="DONE" || j.status==="ERROR") return j;
+    setStatus(j.stage || j.status);
+    await new Promise(res=>setTimeout(res, 1500));
+  }
+}
+
+async function genText(){
+  const input = document.getElementById("idea").value.trim();
+  if(!input) return alert("Нужно заполнить поле.");
+
+  document.getElementById("resultCard").classList.add("hidden");
+  document.getElementById("textCard").classList.add("hidden");
+  setStatus(pick(WAIT_TEXT) + " (очередь…)");
+
+  if(!API_BASE){
+    // fallback без API (только чтобы UI не был мёртвым)
+    setApiState(false);
+    setTimeout(()=>{
+      state.full_text = "⚠️ API не подключено.\n\nСейчас это демо-режим интерфейса.\nПодними backend на PythonAnywhere — и будет 1:1 как бот.";
+      document.getElementById("lyrics").innerText = state.full_text;
+      document.getElementById("textCard").classList.remove("hidden");
+      setStatus("текст готов (демо UI)");
+    }, 1200);
+    return;
+  }
+
+  setApiState(true);
+
+  try{
+    const res = await apiPost("/api/text", {
+      idea: input.slice(0,500),
+      genre: state.genre,
+      tempo: state.tempo,
+      voice: state.voice
+    });
+    // res: { job_id }
+    const done = await pollJob(res.job_id);
+    if(done.status==="ERROR") throw new Error(done.error||"error");
+    state.full_text = done.result.full_text || "";
+    document.getElementById("lyrics").innerText = state.full_text;
+    document.getElementById("textCard").classList.remove("hidden");
+    setStatus("текст готов");
+  }catch(e){
+    setStatus("ошибка генерации текста");
+    alert("Ошибка: " + e.message);
+  }
+}
+
+async function runDemo(){
+  if(!state.full_text){
+    // если режим "user" — берём текст из поля
+    if(state.mode==="user"){
+      state.full_text = document.getElementById("idea").value.trim();
+    }
+  }
+  if(!state.full_text) return alert("Сначала сделай/получи текст.");
+
+  setStatus(pick(WAIT_MUSIC) + " (DEMO, очередь…)");
+
+  if(!API_BASE){
+    setApiState(false);
+    setTimeout(()=>{
+      document.getElementById("coverBox").innerHTML = "";
+      document.getElementById("a1").src = "";
+      document.getElementById("a2").src = "";
+      document.getElementById("resultCard").classList.remove("hidden");
+      setStatus("готово (демо UI без API)");
+    }, 1300);
+    return;
+  }
+
+  setApiState(true);
+
+  try{
+    const res = await apiPost("/api/demo", {
+      text: state.full_text,
+      genre: state.genre,
+      voice: state.voice
+    });
+    const done = await pollJob(res.job_id);
+    if(done.status==="ERROR") throw new Error(done.error||"error");
+
+    const { cover_url, audio_urls } = done.result;
+    if(cover_url){
+      document.getElementById("coverBox").innerHTML = `<img src="${cover_url}" alt="cover">`;
+    } else {
+      document.getElementById("coverBox").innerHTML = "";
+    }
+    document.getElementById("a1").src = (audio_urls && audio_urls[0]) ? audio_urls[0] : "";
+    document.getElementById("a2").src = (audio_urls && audio_urls[1]) ? audio_urls[1] : "";
+    document.getElementById("resultCard").classList.remove("hidden");
+    setStatus("готово (DEMO)");
+  }catch(e){
+    setStatus("ошибка DEMO");
+    alert("Ошибка: " + e.message);
+  }
+}
+
+async function runFull(){
+  if(!state.full_text){
+    if(state.mode==="user"){
+      state.full_text = document.getElementById("idea").value.trim();
+    }
+  }
+  if(!state.full_text) return alert("Сначала сделай/получи текст.");
+
+  setStatus(pick(WAIT_MUSIC) + " (FULL, очередь…)");
+
+  if(!API_BASE){
+    setApiState(false);
+    alert("FULL требует backend API (и позже оплату). Сейчас API не подключено.");
+    return;
+  }
+
+  setApiState(true);
+
+  try{
+    const res = await apiPost("/api/full", {
+      text: state.full_text,
+      genre: state.genre,
+      voice: state.voice
+    });
+    const done = await pollJob(res.job_id);
+    if(done.status==="ERROR") throw new Error(done.error||"error");
+
+    const { cover_url, audio_urls } = done.result;
+    if(cover_url){
+      document.getElementById("coverBox").innerHTML = `<img src="${cover_url}" alt="cover">`;
+    } else {
+      document.getElementById("coverBox").innerHTML = "";
+    }
+    document.getElementById("a1").src = (audio_urls && audio_urls[0]) ? audio_urls[0] : "";
+    document.getElementById("a2").src = (audio_urls && audio_urls[1]) ? audio_urls[1] : "";
+    document.getElementById("resultCard").classList.remove("hidden");
+    setStatus("готово (FULL)");
+  }catch(e){
+    setStatus("ошибка FULL");
+    alert("Ошибка: " + e.message);
+  }
+}
+
+document.getElementById("tempoRow").onclick = (e)=>{
+  const b = e.target.closest("button"); if(!b) return;
+  state.tempo = b.dataset.tempo;
+  setActive("tempoRow","data-tempo",state.tempo);
+};
+document.getElementById("voiceRow").onclick = (e)=>{
+  const b = e.target.closest("button"); if(!b) return;
+  state.voice = b.dataset.voice;
+  setActive("voiceRow","data-voice",state.voice);
+};
+document.getElementById("modeRow").onclick = (e)=>{
+  const b = e.target.closest("button"); if(!b) return;
+  state.mode = b.dataset.mode;
+  setActive("modeRow","data-mode",state.mode);
+  state.full_text = "";
+  document.getElementById("textCard").classList.add("hidden");
+  renderMode();
+};
+
+document.getElementById("btnText").onclick = ()=>{
+  if(state.mode==="ai") genText();
+  else {
+    // user mode: "текст готов" сразу
+    const t = document.getElementById("idea").value.trim();
+    if(!t) return alert("Вставь текст.");
+    state.full_text = t;
+    document.getElementById("lyrics").innerText = t;
+    document.getElementById("textCard").classList.remove("hidden");
+    setStatus("текст сохранён");
+  }
+};
+document.getElementById("btnDemo").onclick = runDemo;
+document.getElementById("btnFull").onclick = runFull;
+
+renderGenres();
+renderMode();
+</script>
 </body>
 </html>
