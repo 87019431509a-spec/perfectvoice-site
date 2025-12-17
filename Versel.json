@@ -1,1 +1,8 @@
-
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://perfectvoice.pythonanywhere.com/api/$1"
+    }
+  ]
+}
